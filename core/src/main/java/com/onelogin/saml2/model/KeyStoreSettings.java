@@ -19,6 +19,11 @@ public class KeyStoreSettings {
     private final String spAlias;
 
     /**
+     * Alias for SP encryption key entry
+     */
+    private final String spEncAlias;
+
+    /**
      * Password for KeyEntry in KeyStore
      */
     private final String spKeyPass;
@@ -39,6 +44,30 @@ public class KeyStoreSettings {
         this.keyStore = keyStore;
         this.spAlias = spAlias;
         this.spKeyPass = spKeyPass;
+        this.spEncAlias = null;
+    }
+
+    /**
+     * Constructor
+     *
+     * @param keyStore
+     *            stores certificates and key
+     *
+     * @param spAlias
+     *            Alias for SP key entry
+     *
+     * @param spKeyPass
+     *            password to access Private KeyEntry in KeyStore
+     *
+     * @param spEncAlias
+     *            Alias for SP encryption key entry
+     *
+     */
+    public KeyStoreSettings(KeyStore keyStore, String spAlias, String spKeyPass, String spEncAlias) {
+        this.keyStore = keyStore;
+        this.spAlias = spAlias;
+        this.spKeyPass = spKeyPass;
+        this.spEncAlias=spEncAlias;
     }
 
     /**
@@ -54,6 +83,14 @@ public class KeyStoreSettings {
     public final String getSpAlias() {
         return spAlias;
     }
+
+    /**
+     * @return the spEncAlias
+     */
+    public final String getSpEncAlias() {
+        return spEncAlias==null?spAlias:spEncAlias;
+    }
+
 
     /**
      * @return the spKeyPass
