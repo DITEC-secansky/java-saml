@@ -12,15 +12,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ '8', '11' ]
+        # Java 8 vypustena: fork pouziva xmlsec 4.0.2 (Santuario), ktory vyzaduje Java 11+.
+        java: [ '11', '17' ]
         os: [ 'ubuntu-latest' ]
-    name: Java ${{ matrix.Java }} (${{ matrix.os }})
+    name: Java ${{ matrix.java }} (${{ matrix.os }})
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v4
       with:
-        distribution: 'adopt'
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
+        cache: 'maven'
+    # OWASP dependency-check (bindnuty na 'verify') sa tu preskakuje - na CI by
+    # stahoval celu NVD databazu a bez NVD_API_KEY casto pada na rate-limit (403).
+    # Bezpecnostny sken je vhodnejsie spustat samostatne, napr. s NVD API klucom:
+    #   mvn --batch-mode verify -DnvdApiKey=${{ secrets.NVD_API_KEY }}
     - name: Maven Test
-      run: mvn --batch-mode clean verify org.jacoco:jacoco-maven-plugin:report
+      run: mvn --batch-mode clean verify org.jacoco:jacoco-maven-plugin:report -Ddependency-check.skip=true
