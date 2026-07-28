@@ -14,7 +14,7 @@
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<slf4jVersion>1.7.36</slf4jVersion>
 		<junitVersion>4.13.2</junitVersion>
-		<logbackVersion>1.5.12</logbackVersion>
+		<logbackVersion>1.5.38</logbackVersion>
 		<apacheCommonsLangVersion>3.20.0</apacheCommonsLangVersion>
 		<!-- OSS Index analyzator je defaultne vypnuty (vyzaduje ucet/credentials, inak vracia HTTP 401).
 		     Po zalozeni uctu a vlozeni credentials do settings.xml (server id 'ossindex') zapnite cez:
