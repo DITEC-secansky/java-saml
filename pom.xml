@@ -39,6 +39,15 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- Force patched transitive netty (via Azure azure-core-http-netty) -
+			     fixes CVE-2026-44891/55831/55833 flagged against netty 4.1.135.Final -->
+			<dependency>
+				<groupId>io.netty</groupId>
+				<artifactId>netty-bom</artifactId>
+				<version>4.1.136.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- for test -->
 			<dependency>
 				<groupId>junit</groupId>
