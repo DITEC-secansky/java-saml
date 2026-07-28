@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.onelogin</groupId>
 	<artifactId>java-saml-toolkit</artifactId>
-	<version>2.9.1-SK</version>
+	<version>2.9.1-SK.1</version>
 	<packaging>pom</packaging>
 
 	<name>java-saml Toolkit Project</name>
@@ -15,7 +15,12 @@
 		<slf4jVersion>1.7.36</slf4jVersion>
 		<junitVersion>4.13.2</junitVersion>
 		<logbackVersion>1.5.12</logbackVersion>
-		<apacheCommonsLangVersion>3.13.0</apacheCommonsLangVersion>
+		<apacheCommonsLangVersion>3.20.0</apacheCommonsLangVersion>
+		<!-- OSS Index analyzator je defaultne vypnuty (vyzaduje ucet/credentials, inak vracia HTTP 401).
+		     Po zalozeni uctu a vlozeni credentials do settings.xml (server id 'ossindex') zapnite cez:
+		         mvn clean install -Dossindex.enabled=true
+		     alebo natrvalo zmente default nizsie na true. -->
+		<ossindex.enabled>false</ossindex.enabled>
 	</properties>
 
 	<modules>
@@ -26,6 +31,14 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Force patched transitive jackson (via Azure) - fixes CVE-2026-54512/54513/54514/54515 -->
+			<dependency>
+				<groupId>com.fasterxml.jackson</groupId>
+				<artifactId>jackson-bom</artifactId>
+				<version>2.18.9</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- for test -->
 			<dependency>
 				<groupId>junit</groupId>
@@ -103,6 +116,12 @@
 						<suppressionFile>.nvd-suppressions.xml</suppressionFile>
 					</suppressionFiles>
 					<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+					<!-- Sonatype OSS Index vyzaduje pri anonymnom pristupe autentifikaciu a vracia HTTP 401.
+					     Zapina sa cez property ossindex.enabled (default false). Credentials sa citaju zo
+					     settings.xml zo servera s id 'ossindex' (username = email, password = API token
+					     z https://ossindex.sonatype.org). Zapnutie: -Dossindex.enabled=true -->
+					<ossindexAnalyzerEnabled>${ossindex.enabled}</ossindexAnalyzerEnabled>
+					<ossIndexServerId>ossindex</ossIndexServerId>
 
 				</configuration>
 				<executions>

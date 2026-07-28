@@ -8,4 +8,14 @@
         <cpe>cpe:/a:microsoft:azure_identity_sdk</cpe>
     </suppress>
 
+    <suppress>
+        <notes><![CDATA[
+   CVE-2026-33117 sa tyka LEN azure-security-keyvault-keys (< 4.10.6), ktory je tu uz opraveny (>= 4.11.1).
+   Ostatne azure-* artefakty (azure-core, azure-core-http-netty, azure-json, azure-identity) su
+   CPE false-positive pre tuto CVE - zdielaju genericky CPE azure_sdk_for_java. Preto ju pre ne potlacame.
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.azure/azure-(core|core-http-netty|json|identity)@.*$</packageUrl>
+        <cve>CVE-2026-33117</cve>
+    </suppress>
+
 </suppressions>

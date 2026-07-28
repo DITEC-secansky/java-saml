@@ -633,8 +633,10 @@ public class UtilsTest {
 	public void testGetNameIdDataWrongKey() throws Exception {
 		String keyString = Util.getFileAsString("data/misc/sp3.key");
 		
-		expectedEx.expect(Exception.class);
-		expectedEx.expectMessage("algid parse error, not a sequence");
+		// The exact exception message differs between JDK versions
+		// (e.g. "algid parse error, not a sequence" vs "Unable to decode key"),
+		// so we only assert on the exception type which is stable across JDKs.
+		expectedEx.expect(InvalidKeySpecException.class);
 		Util.loadPrivateKey(keyString);
 	}
 	
